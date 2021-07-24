@@ -4,6 +4,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,11 +17,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 
 import com.example.demo.resttemplate.model.Demo;
 
@@ -45,6 +45,14 @@ public class RestTemplateController
 		Object[] objects = restTemplate.getForObject(url, Object[].class);
 		
 		return Arrays.asList(objects);
+	}
+	
+	@GetMapping("/get/{id}")
+	public Object findById(@PathVariable("id") long id)
+	{
+		String url="http://localhost:9090/get/";
+		ResponseEntity<Object> response = restTemplate.getForEntity(url + id, Object.class);
+		return response.getBody();
 	}
 	
 	@PutMapping("/update/{id}")
